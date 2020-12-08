@@ -138,11 +138,12 @@ public class DB extends _Default implements Runnable {
                 amigo.setNome(resultSet.getString("Nome"));
                 amigo.setCelular(resultSet.getString("Celular"));
                 amigo.setStatus(resultSet.getInt("Status"));
-                if (!resultSet.getString("Foto").equals("x")) {
-                    Blob blob = resultSet.getBlob("Foto");
-                    byte[] b = blob.getBytes(1,(int)blob.length());
-                    amigo.setImagemEmbyte(b);
+                amigo.setImagemEmbyte(resultSet.getBytes("Foto"));
+
+                if (resultSet.getBytes("Foto") != null) {
+                    amigo.setImagemEmBitmap(Auxilio.getImagemBytes(amigo.getImagemEmbyte()));
                 }
+
 
                 amigos.add(new Amigo(amigo.getId(), amigo.getNome(), amigo.getCelular(), amigo.getStatus(), 1, amigo.getImagemEmBitmap()));
             }
